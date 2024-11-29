@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres_test:
+    container_name: postgres_test
+    image: postgres:15-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+      POSTGRES_DB: test-db
+    networks:
+      - test_network
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+
+  pgadmin_test:
+    container_name: pgadmin_test
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    networks:
+      - test_network
+    depends_on:
+      postgres_test:
+        condition: service_healthy # Wait for postgres to be healthy
+
+networks:
+  test_network:
+    name: test_network
+    driver: bridge
+
+volumes:
+  postgres_test_data:

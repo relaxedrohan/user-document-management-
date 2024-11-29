@@ -1,5 +1,6 @@
 // src/users/users.service.ts
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -70,7 +71,11 @@ export class UsersService {
   }
 
   async updateRole(id: string, newRole: UserRole): Promise<User> {
+    if (!Object.values(UserRole).includes(newRole)) {
+      throw new BadRequestException('Invalid role');
+    }
     const user = await this.findOne(id);
+    if (!user) throw new NotFoundException('User not found');
     user.role = newRole;
     return await this.usersRepository.save(user);
   }

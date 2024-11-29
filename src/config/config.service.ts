@@ -20,11 +20,11 @@ export class AppConfigService {
 
   get database(): DatabaseConfig {
     return {
-      host: this.configService.get<string>('PG_HOST'),
-      port: this.configService.get<number>('PG_PORT'),
-      username: this.configService.get<string>('PG_USER'),
-      password: this.configService.get<string>('PG_PASSWORD'),
-      database: this.configService.get<string>('PG_NAME'),
+      host: this.configService.get<string>('POSTGRES_HOST'),
+      port: this.configService.get<number>('POSTGRES_PORT'),
+      username: this.configService.get<string>('POSTGRES_USER'),
+      password: this.configService.get<string>('POSTGRES_PASSWORD'),
+      database: this.configService.get<string>('POSTGRES_NAME'),
     };
   }
 

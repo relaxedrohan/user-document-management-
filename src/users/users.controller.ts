@@ -45,6 +45,10 @@ export class UsersController {
     status: 404,
     description: 'User not found',
   })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid Role',
+  })
   updateRole(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
     return this.usersService.updateRole(id, updateRoleDto.role);
   }

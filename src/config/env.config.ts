@@ -58,23 +58,23 @@ export class EnvironmentVariables {
 
   @IsString()
   @IsNotEmpty()
-  PG_HOST: string;
+  POSTGRES_HOST: string;
 
   @IsNumber()
   @Transform(({ value }) => Number(value))
-  PG_PORT: number;
+  POSTGRES_PORT: number;
 
   @IsString()
   @IsNotEmpty()
-  PG_USER: string;
+  POSTGRES_USER: string;
 
   @IsString()
   @IsNotEmpty()
-  PG_PASSWORD: string;
+  POSTGRES_PASSWORD: string;
 
   @IsString()
   @IsNotEmpty()
-  PG_NAME: string;
+  POSTGRES_NAME: string;
 
   @IsString()
   @IsNotEmpty()

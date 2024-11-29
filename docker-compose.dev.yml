@@ -4,11 +4,11 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - .env
+      - .env.development
     environment:
-      PG_USER: ${PG_USER}
-      PG_PASSWORD: ${PG_PASSWORD}
-      PG_DB: ${PG_NAME}
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mysecret
+      POSTGRES_DB: user_document_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:

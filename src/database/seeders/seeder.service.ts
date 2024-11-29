@@ -5,6 +5,7 @@ import { DataFactoryService } from './data-factory.service';
 import { UserRole } from '../../users/enums/role.enum';
 import { User } from 'src/users/user.entity';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SeederService implements OnApplicationBootstrap {
@@ -12,9 +13,14 @@ export class SeederService implements OnApplicationBootstrap {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly dataFactory: DataFactoryService,
+    private readonly configService: ConfigService,
   ) {}
 
   async onApplicationBootstrap() {
+    if (this.configService.get('NODE_ENV') !== 'development') {
+      console.log('Skipping seeding in non-development environment');
+      return;
+    }
     try {
       const count = await this.userRepository.count();
       if (count > 100) {
@@ -43,7 +49,22 @@ export class SeederService implements OnApplicationBootstrap {
       role: UserRole.ADMIN,
     });
     await this.userRepository.save(admin);
-    console.log('Created admin user');
+    console.log(
+      `Created admin user email: admin@example.com password: admin23`,
+    );
+
+    const editorPassword = await bcrypt.hash('editor123', 10);
+    const editor = this.userRepository.create({
+      email: 'editor@example.com',
+      password: editorPassword,
+      firstName: 'Editor',
+      lastName: 'User',
+      role: UserRole.EDITOR,
+    });
+    const user = await this.userRepository.save(editor);
+    console.log(
+      `Created Editor user email: editor@example.com password: editor23, id: ${user.id}`,
+    );
 
     // Generate bulk users in batches
     const BATCH_SIZE = 100;
