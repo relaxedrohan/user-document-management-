@@ -17,7 +17,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       database: this.configService.database.database,
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: this.configService.nodeEnv !== 'production',
-      logging: this.configService.nodeEnv !== 'production',
+      logging: false,
     };
   }
 }

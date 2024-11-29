@@ -1,13 +1,12 @@
-import { Role } from 'src/role/role.entity';
+// src/users/entities/user.entity.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
-  JoinTable,
 } from 'typeorm';
+import { UserRole } from './enums/role.enum';
 
 @Entity('users')
 export class User {
@@ -26,6 +25,13 @@ export class User {
   @Column()
   lastName: string;
 
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.VIEWER,
+  })
+  role: UserRole;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -34,18 +40,4 @@ export class User {
 
   @Column({ nullable: true })
   lastLoginAt: Date;
-
-  @ManyToMany(() => Role)
-  @JoinTable({
-    name: 'users_roles',
-    joinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'role_id',
-      referencedColumnName: 'id',
-    },
-  })
-  roles: Role[];
 }
