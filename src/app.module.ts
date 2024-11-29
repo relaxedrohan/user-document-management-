@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { AppConfigModule } from './config/config.module';
-import { SeederModule } from './database/seeders/seeder.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { SeederModule } from './database/seeders/seeder.module';
     }),
     UsersModule,
     AuthModule,
-    SeederModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
