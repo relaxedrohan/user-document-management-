@@ -16,31 +16,37 @@ npm run docker:dev
 
 # Start NestJS app in watch mode
 npm run start:dev
+```
+
 This spins up everything you need to start developing. The app will automatically reload when you make changes.
 
 💡 Future improvement: Could integrate the NestJS app into docker-compose for a fully containerized dev environment.
 
 ## What's Happening Under the Hood
+
 When you start the server:
 
-TypeORM connects to Postgres (sync enabled for quick development)
-Checks user count in database
-If users < 100:
+### TypeORM connects to Postgres (sync enabled for quick development)
 
-Seeds 1000 test users (in batches of 100)
-Creates admin & editor test accounts
-Logs credentials for Swagger API testing
+### Checks user count in database
 
+### If users < 100:
 
-Starts NestJS app & registers routes
+### Seeds 1000 test users (in batches of 100)
 
-Testing
-bashCopynpm run test:e2e
-This:
+### Creates admin & editor test accounts
 
-Spins up a dedicated test database
+### Logs credentials for Swagger API testing
+
+### Starts NestJS app & registers routes
+
+## Testing
+
+### npm run test:e2e
+
+This:Spins up a dedicated test database
 Waits for DB to be ready (2s)
-Runs all *.e2e-spec.ts files
+Runs all \*.e2e-spec.ts files
 Tears down test database when done
 
 Code Quality
@@ -57,6 +63,7 @@ pgAdmin: http://localhost:5050
 
 Next Steps
 Some areas I'm planning to improve:
+
 1. Database Migrations
 
 Move away from synchronize: true
@@ -97,13 +104,3 @@ Health checks
 Docker watch mode
 Documentation generation
 Unit test coverage
-
-Contributing
-Feel free to open issues or submit PRs. Make sure to:
-
-Follow the existing code style
-Add tests for new features
-Update documentation
-Use conventional commits
-
-```
