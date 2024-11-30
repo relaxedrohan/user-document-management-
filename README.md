@@ -1,73 +1,109 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# User Document Management System
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS backend service for managing users and documents with role-based access control.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Prerequisites
 
-## Description
+- Node.js (v18+)
+- Docker & Docker Compose
+- PostgreSQL (handled via Docker)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
+## Quick Start
 
 ```bash
-$ npm install
+# Start PostgreSQL & pgAdmin containers
+npm run docker:dev
+
+# Start NestJS app in watch mode
+npm run start:dev
+This spins up everything you need to start developing. The app will automatically reload when you make changes.
+
+💡 Future improvement: Could integrate the NestJS app into docker-compose for a fully containerized dev environment.
+
+## What's Happening Under the Hood
+When you start the server:
+
+TypeORM connects to Postgres (sync enabled for quick development)
+Checks user count in database
+If users < 100:
+
+Seeds 1000 test users (in batches of 100)
+Creates admin & editor test accounts
+Logs credentials for Swagger API testing
+
+
+Starts NestJS app & registers routes
+
+Testing
+bashCopynpm run test:e2e
+This:
+
+Spins up a dedicated test database
+Waits for DB to be ready (2s)
+Runs all *.e2e-spec.ts files
+Tears down test database when done
+
+Code Quality
+We're using Husky for git hooks to ensure code quality:
+
+Pre-commit: Runs linting and formatting
+Commit-msg: Enforces conventional commit messages
+
+API Documentation
+Once running, visit:
+
+Swagger UI: http://localhost:3000/api
+pgAdmin: http://localhost:5050
+
+Next Steps
+Some areas I'm planning to improve:
+1. Database Migrations
+
+Move away from synchronize: true
+Proper version control for schema
+
+2. Docker Optimization
+
+Multi-stage builds
+Better caching
+Production-ready setup
+
+3. Document Management
+
+Implement file storage
+Handle different document types
+Version control
+
+4. Performance
+
+Load testing
+Query optimization
+Caching strategy
+
+5. CI/CD Pipeline
+
+Automated testing
+Deployment workflows
+Environment management
+
+What Could Be Better
+A few things I'd like to enhance:
+
+Proper logging setup
+Error handling middleware
+Request validation pipeline
+API rate limiting
+Health checks
+Docker watch mode
+Documentation generation
+Unit test coverage
+
+Contributing
+Feel free to open issues or submit PRs. Make sure to:
+
+Follow the existing code style
+Add tests for new features
+Update documentation
+Use conventional commits
+
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
